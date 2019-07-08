@@ -16,4 +16,8 @@ func main() {
 	fmt.Printf("%T\n",bs)
 	fmt.Println(bs1)
 	fmt.Printf("%T\n",bs1)
+
+	for i:=0; i<len(s); i++{
+		fmt.Printf("%#U",s[i])
+	}
 }
