@@ -33,4 +33,14 @@ func main(){
 			fmt.Println("Final statement")
 			//fallthrough cannot be applied to the final statement
         }
+
+	//using default case
+	switch {
+		case false:
+			fmt.Println("False case")
+		case (2==4):
+			fmt.Println("False case")
+		default:
+			fmt.Println("Default case")	
+	}
 }
