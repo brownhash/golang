@@ -10,4 +10,7 @@ func main() {
 
 	a = append(a, 123, 456)
 	fmt.Println("Appended values - ",a)
+	
+	a = append(a[:2],a[4:]...)
+	fmt.Println(a)
 }
