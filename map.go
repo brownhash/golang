@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	
+	//map definition
 	m := map[string]int {
 		"Harshit" : 21,
 		"Harry" : 22,
