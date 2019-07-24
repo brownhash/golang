@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+//Structure declaration
 type person struct{
 	first_name string
 	second_name string
