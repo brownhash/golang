@@ -11,14 +11,14 @@ func main(){
 	test1()
 	test2()
 
-	operationDone := make(chan bool)
+	operationDone := make(chan bool) // creating a channel
 
 	go func(){
 		fmt.Println(">>>1")
 		fmt.Println(">>>1")
 		fmt.Println(">>>1")
 		fmt.Println(">>>1")
-		operationDone <- true
+		operationDone <- true // marking a task as done
 	}()
 	test1()
 	test2()
@@ -30,7 +30,7 @@ func main(){
 		fmt.Println(">>>2")
 		operationDone <- true
 	}()
-	<-operationDone
+	<-operationDone // channel end
 
 	test1()
 	test2()
