@@ -7,7 +7,7 @@ import (
 )
 
 func main(){
-	runtime.GOMAXPROCS(2)
+	runtime.GOMAXPROCS(2) //stating max cpu cores to be used
 	test1()
 	test2()
 

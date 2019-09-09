@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"time"
 )
 
 func main(){
+	runtime.GOMAXPROCS(2)
 	operationDone := make(chan bool)
 	now := time.Now()
 	sum := 0
