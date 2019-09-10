@@ -7,10 +7,10 @@ import (
 	s "strings"
 )
 func http_handler(w http.ResponseWriter, r *http.Request) {
-	/*if r.URL.Path != "/" {
+	if r.URL.Path == "/error" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
-	}*/
+	}
 	if len(r.URL.Path) > 1{
 		switch r.Method {
 		case "GET":
