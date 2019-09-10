@@ -16,6 +16,9 @@ func http_handler(w http.ResponseWriter, r *http.Request) {
 		case "GET":
 			variable := s.Split(r.URL.Path, "/")
 			fmt.Fprintf(w, "You have entered - %v", variable[1])
+			if variable[1] == "harrypotter"{
+				fmt.Fprintf(w, "\nYou have cracked the magic words")
+			}
 		case "POST":
 			fmt.Fprintf(w, "We do not accept POST requests this way")
 		}
