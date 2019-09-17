@@ -11,6 +11,8 @@ func main(){
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/health", healthCheck)
 	http.HandleFunc("/logout", logout)
+	http.HandleFunc("/cpureport", cpuReport)
+	http.HandleFunc("/cpureportsg", cpuReportSg)
 	fmt.Printf("Starting go_app...\n")
 	if err := http.ListenAndServe(":8001", nil); err != nil {
 		log.Fatal(err)

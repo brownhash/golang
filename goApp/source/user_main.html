@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>goApp: {{.uname}}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
     <style>
         body{
             font-family: Monaco;
@@ -10,6 +11,9 @@
         }
         span{
             font-family: Monaco;
+        }
+        #chartCarrier{
+            width: 40%;
         }
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -20,20 +24,307 @@
         <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span>{{.uname}}</span>
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu" style="text-align: center;">
             <form action="http://localhost:8001/logout" method="POST">
                 <input name="user_value" hidden value="{{.uname}}??{{.data.Value}}">
-                <input class="btn btn-outline-dark" style="width: 100%" type="submit" value="logout">
+                <input class="btn btn-outline-dark" style="width: 90%" type="submit" value="logout">
             </form>
         </div>
     </div>
 </div>
 <div class="card" style="margin-top: 20px">
     <div class="card-body">
-        <span>{{.data.Value}}</span>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <canvas id="barChartMax2" ></canvas>
+                </div>
+                <div class="col-sm">
+                    <canvas id="lineChartAvg2" ></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <canvas id="barChartMax" ></canvas>
+                </div>
+                <div class="col-sm">
+                    <canvas id="lineChartAvg" ></canvas>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
+<!-- BAR CHART MAX-->
+
+<script>
+    var ctx = document.getElementById('barChartMax').getContext('2d');
+
+    function cpu_report(theUrl)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    data = cpu_report("http://localhost:8001/cpureport").toString();
+    data_split= data.split("$$");
+
+    day1=data_split[0].split(" ")
+    day2=data_split[1].split(" ")
+    day3=data_split[2].split(" ")
+    day4=data_split[3].split(" ")
+    day5=data_split[4].split(" ")
+    day6=data_split[5].split(" ")
+    day7=data_split[6].split(" ")
+    day8=data_split[7].split(" ")
+    day9=data_split[8].split(" ")
+    day10=data_split[9].split(" ")
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [day1[0], day2[0], day3[0], day4[0], day5[0], day6[0], day7[0], day8[0], day9[0], day10[0]],
+            datasets: [{
+                label: 'Maximum cpu utilisation for Jenkins-Mumbai',
+                data: [day1[2], day2[2], day3[2], day4[2], day5[2], day6[2], day7[2], day8[2], day9[2], day10[2]],
+                backgroundColor: [
+                    'rgba(62, 207, 19, 0.4)',
+                    'rgba(238, 231, 15, 0.4)',
+                    'rgba(15, 228, 238, 0.4)',
+                    'rgba(238, 15, 184, 0.4)',
+                    'rgba(15, 45, 238, 0.4)',
+                    'rgba(238, 15, 49, 0.4)',
+                    'rgba(243, 166, 1, 0.4)',
+                    'rgba(53, 51, 45, 0.4)',
+                    'rgba(0, 245, 163, 0.4)',
+                    'rgba(98, 8, 238, 0.4)',
+                    'rgba(249, 3, 3, 0.4)',
+                    'rgba(0, 0, 0, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(62, 207, 19, 1)',
+                    'rgba(238, 231, 15, 1)',
+                    'rgba(15, 228, 238, 1)',
+                    'rgba(238, 15, 184, 1)',
+                    'rgba(15, 45, 238, 1)',
+                    'rgba(238, 15, 49, 1)',
+                    'rgba(243, 166, 1, 1)',
+                    'rgba(53, 51, 45, 1)',
+                    'rgba(0, 245, 163, 1)',
+                    'rgba(98, 8, 238, 1)',
+                    'rgba(249, 3, 3, 1)',
+                    'rgba(0, 0, 0, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+
+    });
+</script>
+
+<!-- LINE CHART AVG-->
+
+<script>
+    var ctx = document.getElementById('lineChartAvg').getContext('2d');
+    function cpu_report(theUrl)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    data = cpu_report("http://localhost:8001/cpureport").toString();
+    data_split= data.split("$$");
+
+    day1=data_split[0].split(" ")
+    day2=data_split[1].split(" ")
+    day3=data_split[2].split(" ")
+    day4=data_split[3].split(" ")
+    day5=data_split[4].split(" ")
+    day6=data_split[5].split(" ")
+    day7=data_split[6].split(" ")
+    day8=data_split[7].split(" ")
+    day9=data_split[8].split(" ")
+    day10=data_split[9].split(" ")
+
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [day1[0], day2[0], day3[0], day4[0], day5[0], day6[0], day7[0], day8[0], day9[0], day10[0]],
+            datasets: [{
+                label: 'Average cpu utilisation for Jenkins-Mumbai',
+                data: [day1[3], day2[3], day3[3], day4[3], day5[3], day6[3], day7[3], day8[3], day9[3], day10[3]],
+                backgroundColor: [
+                    'rgba(238, 15, 49, 0.4)',
+                    'rgba(238, 231, 15, 0.4)',
+                    'rgba(15, 228, 238, 0.4)',
+                    'rgba(238, 15, 184, 0.4)',
+                    'rgba(15, 45, 238, 0.4)',
+                    'rgba(62, 207, 19, 0.4)',
+                    'rgba(243, 166, 1, 0.4)',
+                    'rgba(53, 51, 45, 0.4)',
+                    'rgba(0, 245, 163, 0.4)',
+                    'rgba(98, 8, 238, 0.4)',
+                    'rgba(249, 3, 3, 0.4)',
+                    'rgba(0, 0, 0, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(238, 15, 49, 1)',
+                    'rgba(238, 231, 15, 1)',
+                    'rgba(15, 228, 238, 1)',
+                    'rgba(238, 15, 184, 1)',
+                    'rgba(15, 45, 238, 1)',
+                    'rgba(62, 207, 19, 1)',
+                    'rgba(243, 166, 1, 1)',
+                    'rgba(53, 51, 45, 1)',
+                    'rgba(0, 245, 163, 1)',
+                    'rgba(98, 8, 238, 1)',
+                    'rgba(249, 3, 3, 1)',
+                    'rgba(0, 0, 0, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+
+    });
+</script>
+
+<!-- BAR CHART MAX 2-->
+
+<script>
+    var ctx = document.getElementById('barChartMax2').getContext('2d');
+
+    function cpu_report(theUrl)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    data = cpu_report("http://localhost:8001/cpureportsg").toString();
+    data_split= data.split("$$");
+
+    day1=data_split[0].split(" ")
+    day2=data_split[1].split(" ")
+    day3=data_split[2].split(" ")
+    day4=data_split[3].split(" ")
+    day5=data_split[4].split(" ")
+    day6=data_split[5].split(" ")
+    day7=data_split[6].split(" ")
+    day8=data_split[7].split(" ")
+    day9=data_split[8].split(" ")
+    day10=data_split[9].split(" ")
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [day1[0], day2[0], day3[0], day4[0], day5[0], day6[0], day7[0], day8[0], day9[0], day10[0]],
+            datasets: [{
+                label: 'Maximum cpu utilisation for Jenkins-Singapore',
+                data: [day1[2], day2[2], day3[2], day4[2], day5[2], day6[2], day7[2], day8[2], day9[2], day10[2]],
+                backgroundColor: [
+                    'rgba(62, 207, 19, 0.4)',
+                    'rgba(238, 231, 15, 0.4)',
+                    'rgba(15, 228, 238, 0.4)',
+                    'rgba(238, 15, 184, 0.4)',
+                    'rgba(15, 45, 238, 0.4)',
+                    'rgba(238, 15, 49, 0.4)',
+                    'rgba(243, 166, 1, 0.4)',
+                    'rgba(53, 51, 45, 0.4)',
+                    'rgba(0, 245, 163, 0.4)',
+                    'rgba(98, 8, 238, 0.4)',
+                    'rgba(249, 3, 3, 0.4)',
+                    'rgba(0, 0, 0, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(62, 207, 19, 1)',
+                    'rgba(238, 231, 15, 1)',
+                    'rgba(15, 228, 238, 1)',
+                    'rgba(238, 15, 184, 1)',
+                    'rgba(15, 45, 238, 1)',
+                    'rgba(238, 15, 49, 1)',
+                    'rgba(243, 166, 1, 1)',
+                    'rgba(53, 51, 45, 1)',
+                    'rgba(0, 245, 163, 1)',
+                    'rgba(98, 8, 238, 1)',
+                    'rgba(249, 3, 3, 1)',
+                    'rgba(0, 0, 0, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+
+    });
+</script>
+
+<!-- LINE CHART AVG 2-->
+
+<script>
+    var ctx = document.getElementById('lineChartAvg2').getContext('2d');
+    function cpu_report(theUrl)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    data = cpu_report("http://localhost:8001/cpureportsg").toString();
+    data_split= data.split("$$");
+
+    day1=data_split[0].split(" ")
+    day2=data_split[1].split(" ")
+    day3=data_split[2].split(" ")
+    day4=data_split[3].split(" ")
+    day5=data_split[4].split(" ")
+    day6=data_split[5].split(" ")
+    day7=data_split[6].split(" ")
+    day8=data_split[7].split(" ")
+    day9=data_split[8].split(" ")
+    day10=data_split[9].split(" ")
+
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [day1[0], day2[0], day3[0], day4[0], day5[0], day6[0], day7[0], day8[0], day9[0], day10[0]],
+            datasets: [{
+                label: 'Average cpu utilisation for Jenkins-Singapore',
+                data: [day1[3], day2[3], day3[3], day4[3], day5[3], day6[3], day7[3], day8[3], day9[3], day10[3]],
+                backgroundColor: [
+                    'rgba(62, 207, 19, 0.4)',
+                    'rgba(238, 231, 15, 0.4)',
+                    'rgba(15, 228, 238, 0.4)',
+                    'rgba(238, 15, 184, 0.4)',
+                    'rgba(15, 45, 238, 0.4)',
+                    'rgba(238, 15, 49, 0.4)',
+                    'rgba(243, 166, 1, 0.4)',
+                    'rgba(53, 51, 45, 0.4)',
+                    'rgba(0, 245, 163, 0.4)',
+                    'rgba(98, 8, 238, 0.4)',
+                    'rgba(249, 3, 3, 0.4)',
+                    'rgba(0, 0, 0, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(62, 207, 19, 1)',
+                    'rgba(238, 231, 15, 1)',
+                    'rgba(15, 228, 238, 1)',
+                    'rgba(238, 15, 184, 1)',
+                    'rgba(15, 45, 238, 1)',
+                    'rgba(238, 15, 49, 1)',
+                    'rgba(243, 166, 1, 1)',
+                    'rgba(53, 51, 45, 1)',
+                    'rgba(0, 245, 163, 1)',
+                    'rgba(98, 8, 238, 1)',
+                    'rgba(249, 3, 3, 1)',
+                    'rgba(0, 0, 0, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

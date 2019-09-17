@@ -55,6 +55,7 @@ func login(username string, password string) map[string]interface{} {
 	loginFlag := map[string]interface{}{
 		"uname": "",
 		"data": "",
+		"cpuFree": 0,
 	}
 
 	for selDB.Next() {
@@ -76,7 +77,7 @@ func login(username string, password string) map[string]interface{} {
 		}
 	}
 	defer db.Close()
-
+	fmt.Println(loginFlag)
 	return loginFlag
 }
 
@@ -114,7 +115,6 @@ func clear_token(uname string, csrf string) string{
 		if err != nil {
 			panic(err.Error())
 		}
-		fmt.Println(username)
 		if len(username) > 0 {
 			token, err := db.Query("UPDATE user_data SET id=? WHERE username=?", "0", uname)
 			if err != nil {
