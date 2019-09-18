@@ -32,6 +32,24 @@
         </div>
     </div>
 </div>
+<div class="card">
+    <form action="http://localhost:8001/getmetrics" method="POST">
+    <div class="container" style="padding: 20px">
+        <div class="row">
+
+            <div class="col-sm">
+                <input class="form-control" value="{{.uname}}" name="username" type="text" placeholder="Instance name" hidden>
+                <input class="form-control" value="{{.data.Value}}" name="csrf" type="text" placeholder="Instance name" hidden>
+                <input class="form-control" name="instanceName" type="text" placeholder="Instance name" required>
+            </div>
+            <div class="col-sm">
+                <button type="submit" class="btn btn-outline-success">Get metrics</button>
+            </div>
+
+        </div>
+    </div>
+    </form>
+</div>
 <div class="card" style="margin-top: 20px">
     <div class="card-body">
         <div class="container">

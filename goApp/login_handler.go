@@ -11,10 +11,10 @@ import (
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		http.ServeFile(w, r, "./source/error.html")
+		http.ServeFile(w, r, "./templates/error.html")
 	case "POST":
 		if err := r.ParseForm(); err != nil {
-			http.ServeFile(w, r, "./source/login_error.html")
+			http.ServeFile(w, r, "./templates/login_error.html")
 			return
 		}
 		uname := r.FormValue("username")
@@ -35,9 +35,9 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 			db := dbConn()
 			token, err := db.Query("UPDATE user_data SET id=? WHERE username=?", csrf.Value, myvar["uname"])
 			fmt.Println(token)
-			goUser(w, "./source/user_main.html", myvar)
+			goUser(w, "./templates/user_main.html", myvar)
 		} else {
-			http.ServeFile(w, r, "./source/index_error.html")
+			http.ServeFile(w, r, "./templates/index_error.html")
 		}
 
 	default:
@@ -84,7 +84,7 @@ func login(username string, password string) map[string]interface{} {
 func logout(w http.ResponseWriter, r *http.Request){
 	if r.Method == "POST" {
 		if err := r.ParseForm(); err != nil {
-			http.ServeFile(w, r, "./source/error.html")
+			http.ServeFile(w, r, "./templates/error.html")
 			return
 		}
 	}
@@ -92,12 +92,13 @@ func logout(w http.ResponseWriter, r *http.Request){
 	listData := s.Split(data, "??")
 	user:= listData[0]
 	csrf:= listData[1]
+	fmt.Printf("%v - %v", user, csrf)
 	flag := clear_token(string(user), string(csrf))
-
+	flag = "true"
 	if flag == "true"{
-		http.ServeFile(w, r, "./source/index.html")
+		http.ServeFile(w, r, "./templates/index.html")
 	} else {
-		http.ServeFile(w, r, "./source/error.html")
+		http.ServeFile(w, r, "./templates/error.html")
 	}
 }
 

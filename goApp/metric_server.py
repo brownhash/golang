@@ -1,16 +1,41 @@
 import boto3
 from datetime import datetime, timedelta
+from flask import Flask, render_template
+from flask import request as rq
 
-from flask import Flask
+
 app = Flask(__name__)
 
 @app.route("/metrics-mumbai")
 def metrics_mumbai():
-    return metrics("ap-south-1", 'i-005e8a7e3c38bab63')
+    return metrics("ap-south-1", 'i-005e8a7e3c38bab73')
 
 @app.route("/metrics-singapore")
 def metrics_sg():
-    return metrics("ap-southeast-1", 'i-03be561ef6bc82400')
+    return metrics("ap-southeast-1", 'i-03be561ef6bc83400')
+
+@app.route("/get-metrics-sg")
+def get_metrics():
+    reader = open('./templates/data', "r")
+    value = reader.read()
+    reader.close()
+    client = boto3.client('ec2', region_name='ap-southeast-1')
+    request = client.describe_instances().get('Reservations')
+
+    id = ""
+    for groups in request:
+        for instances in groups.get('Instances'):
+            tags = instances.get('Tags')
+            for i in tags:
+                if i.get('Key') == 'Name' and i.get('Value') == value:
+                    id = instances.get('InstanceId')
+
+    if len(id)>0:
+        data = metrics('ap-southeast-1', id)
+        return data
+
+    else:
+        return render_template("instance_error.html")
 
 
 def metrics(region, i_id):
@@ -72,14 +97,13 @@ def metrics(region, i_id):
 
     split_data = metric.split("$$")
     return_data = ""
+    min = split_data[1].split(" ")[0]
     for i in range(0, len(split_data)-1):
         for j in range(0, len(split_data)-1):
             if compare_date(split_data[i].split(" ")[0], split_data[j].split(" ")[0]):
                 temp = split_data[j]
                 split_data[j] = split_data [i]
                 split_data[i] = temp
-    print(split_data)
-    print(metric)
     for i in split_data:
         return_data = return_data + i + "$$"
     return return_data
