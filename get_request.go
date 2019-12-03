@@ -66,3 +66,7 @@ func responseHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+// usage -
+// localhost:9002/latitude&longitude
+// http://localhost:9002/19.027094&72.849839

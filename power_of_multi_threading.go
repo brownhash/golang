@@ -6,22 +6,22 @@ import (
 	"time"
 )
 
-func main(){
+func main() {
 	runtime.GOMAXPROCS(2)
 	operationDone := make(chan bool)
 	now := time.Now()
 	sum := 0
-	for i:=0; i<=10000000; i++ {
+	for i := 0; i <= 10000000; i++ {
 		sum = sum + i
 	}
-	fmt.Println("####",sum)
+	fmt.Println("####", sum)
 
-	go func(){
+	go func() {
 		sum2 := 0
-		for j:=0; j<=10000000; j++ {
+		for j := 0; j <= 10000000; j++ {
 			sum2 = sum2 + j
 		}
-		fmt.Println(">>>>",sum2)
+		fmt.Println(">>>>", sum2)
 		operationDone <- true
 	}()
 	<-operationDone
