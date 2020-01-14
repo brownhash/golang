@@ -10,4 +10,10 @@ func main() {
 	for _, arg := range os.Args {
 		fmt.Println(arg)
 	}
+
+	// in above loop _ is used as a blank identifier
+	// to ignore the index
+	for index, arg := range os.Args {
+		fmt.Println(arg, index)
+	}
 }
