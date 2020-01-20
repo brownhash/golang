@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// get duplicates from a file
 func main() {
 	counts := make(map[string]int)
 	files := os.Args[1:]
